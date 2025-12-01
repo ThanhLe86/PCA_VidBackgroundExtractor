@@ -3,14 +3,74 @@ import numpy as np
 from PIL import Image
 import os
 
-def reconstruct_single_frame(csv_file, frame_number, output_file=None):
+def reconstruct_frames_from_transposed_csv(csv_file, output_dir='reconstructed_frames', frame_numbers=None, header='frame_'):
+    """
+    Reconstruct frames from transposed CSV format
+    
+    Args:
+        csv_file: Path to the CSV file
+        output_dir: Directory to save reconstructed images
+        frame_numbers: List of specific frame numbers to reconstruct (None = all frames)
+        header: Prefix for frame columns ('frame_' for 'frame_0', 'V' for 'V1', etc.)
+    """
+    
+    # Create output directory if it doesn't exist
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Read the CSV file
+    df = pd.read_csv(csv_file)
+    
+    # Get frame column names (excluding first column which is pixel index)
+    frame_columns = [col for col in df.columns if col.startswith(header)]
+    
+    # Determine which frames to reconstruct
+    if frame_numbers is not None:
+        if header == 'V':
+            # For V columns: V1, V2, V3... (frame 0, 1, 2...)
+            target_frames = [f'V{i+1}' for i in frame_numbers if f'V{i+1}' in frame_columns]
+        else:
+            # For frame_ columns: frame_0, frame_1, frame_2...
+            target_frames = [f'{header}{i}' for i in frame_numbers if f'{header}{i}' in frame_columns]
+    else:
+        target_frames = frame_columns
+    
+    print(f"Total frames available: {len(frame_columns)}")
+    print(f"Reconstructing {len(target_frames)} frames")
+    
+    # Image dimensions (160x90 from your original video)
+    width, height = 160, 90
+    
+    # Reconstruct each frame
+    for frame_col in target_frames:
+        # Extract pixel values for this frame
+        pixels = df[frame_col].values.astype(np.uint8)
+        
+        # Reshape to image dimensions
+        image_array = pixels.reshape((height, width))
+        
+        # Create and save the image
+        image = Image.fromarray(image_array, mode='L')
+        if header == 'V':
+            # V1 corresponds to frame 0, V2 to frame 1, etc.
+            frame_number = int(frame_col[1:]) - 1
+        else:
+            # frame_0, frame_1, etc.
+            frame_number = int(frame_col.split('_')[1])
+        output_filename = os.path.join(output_dir, f'frame_{frame_number:04d}.png')
+        image.save(output_filename)
+        print(f"Saved {output_filename}")
+    
+    print(f"Frames saved to directory: {output_dir}")
+
+def reconstruct_single_frame(csv_file, frame_number, output_file=None, header='frame_'):
     """
     Reconstruct a single frame and return the image
     
     Args:
         csv_file: Path to the CSV file
-        frame_number: Frame number to reconstruct (0, 1, 2, ...)
+        frame_number: Frame number to reconstruct
         output_file: Optional path to save the image
+        header: Prefix for frame columns ('frame_' or 'V')
     
     Returns:
         PIL Image object
@@ -19,34 +79,29 @@ def reconstruct_single_frame(csv_file, frame_number, output_file=None):
     # Read the CSV file
     df = pd.read_csv(csv_file)
     
-    # Image dimensions (160x90 from your extraction script)
+    # Image dimensions (160x90)
     width, height = 160, 90
-    expected_pixels = width * height  # 14,400
-    
-    # Find the frame column - it should be V1, V2, V3, etc.
-    # V1 corresponds to frame 0, V2 to frame 1, etc.
-    frame_col = f'V{frame_number + 1}'  # V1 = frame 0, V2 = frame 1, etc.
-    
-    # Check if frame exists
-    if frame_col not in df.columns:
-        available_v_columns = [col for col in df.columns if col.startswith('V')]
-        max_frame = len(available_v_columns) - 1 if available_v_columns else -1
-        raise ValueError(f"Frame {frame_number} not found. Available frames: 0-{max_frame}")
     
     # Extract pixel values for the specified frame
-    # Skip the first row if it contains header data that became a data row
+    if header == 'V':
+        # V1 corresponds to frame 0, V2 to frame 1, etc.
+        frame_col = f'V{frame_number + 1}'
+    else:
+        # frame_0, frame_1, etc.
+        frame_col = f'{header}{frame_number}'
+    
+    if frame_col not in df.columns:
+        if header == 'V':
+            available_frames = [int(col[1:]) - 1 for col in df.columns if col.startswith(header)]
+        else:
+            available_frames = [int(col.split('_')[1]) for col in df.columns if col.startswith(header)]
+        min_frame = min(available_frames) if available_frames else 0
+        max_frame = max(available_frames) if available_frames else 0
+        raise ValueError(f"Frame {frame_number} not found. Available frames: {min_frame}-{max_frame}")
+    
     pixels = df[frame_col].values.astype(np.uint8)
     
-    print(f"Raw pixel array shape: {pixels.shape}")
-    
-    # If we have 14401 pixels, the first one is likely extra - remove it
-    if len(pixels) == 14401:
-        pixels = pixels[1:]  # Remove first element
-        print("Removed first element, now has 14400 pixels")
-    elif len(pixels) != 14400:
-        raise ValueError(f"Unexpected number of pixels: {len(pixels)}. Expected 14400.")
-    
-    # Reshape to image dimensions (90, 160)
+    # Reshape to image dimensions
     image_array = pixels.reshape((height, width))
     
     # Create the image
@@ -59,31 +114,25 @@ def reconstruct_single_frame(csv_file, frame_number, output_file=None):
     
     return image
 
-def reconstruct_multiple_frames(csv_file, frame_numbers, output_dir='reconstructed_frames'):
-    """Reconstruct multiple frames"""
-    os.makedirs(output_dir, exist_ok=True)
-    
-    for frame_num in frame_numbers:
-        try:
-            output_file = os.path.join(output_dir, f'frame_{frame_num:04d}.png')
-            image = reconstruct_single_frame(csv_file, frame_num, output_file)
-            print(f"Frame {frame_num} reconstructed successfully")
-        except Exception as e:
-            print(f"Error reconstructing frame {frame_num}: {e}")
-
 # Example usage:
 if __name__ == "__main__":
-    csv_file = "foreground_output.csv"
+    csv_file = "foreground_output.csv"  # Replace with your actual CSV filename
     
     # Reconstruct first few frames
     try:
-        # Reconstruct frame 0
-        image = reconstruct_single_frame(csv_file, frame_number=0, output_file='frame_0.png')
-        print("Frame 0 reconstructed and saved as frame_0.png")
+        # Create output directory
+        output_dir = "back_reconstructed_frames"
+        os.makedirs(output_dir, exist_ok=True)
         
-        # Reconstruct frame 1
-        image = reconstruct_single_frame(csv_file, frame_number=10, output_file='frame_1.png')
-        print("Frame 1 reconstructed and saved as frame_1.png")
+        # For V columns (V1, V2, V3...)
+        reconstruct_frames_from_transposed_csv(csv_file, output_dir, frame_numbers=[0, 1, 2, 3, 4], header='frame_')
+        
+        # Or for frame_ columns (frame_0, frame_1, frame_2...)
+        # reconstruct_frames_from_transposed_csv(csv_file, output_dir, frame_numbers=[0, 1, 2, 3, 4], header='frame_')
+        
+        # Or reconstruct a single frame
+        # image = reconstruct_single_frame(csv_file, frame_number=0, output_file='frame_0.png', header='V')
+        # print("Frame 0 reconstructed and saved as frame_0.png")
         
     except Exception as e:
         print(f"Error: {e}")
