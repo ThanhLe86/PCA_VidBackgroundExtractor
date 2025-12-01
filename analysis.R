@@ -1,28 +1,54 @@
 # install.packages("rpca")
 install.packages("rpca")
-# Load the rpca library
 library(rpca)
 
 # Load your CSV file
 # 'header = FALSE' if your CSV is just numbers. Change to TRUE if you have frame names.
 # using as.matrix() is crucial because rpca requires a matrix, not a dataframe.
+# Read the CSV with proper header handling
 raw <- read.csv(
   "frames_pixels.csv",
-  header = FALSE,
+  header = TRUE,  # Keep headers
   stringsAsFactors = FALSE
 )
-video_matrix <- apply(raw, 2, function(col) as.numeric(col))
 
+# Check the structure
+print("Original data dimensions:")
+print(dim(raw))
+print("Column names:")
+print(names(raw))
 
-#check non numeric
-sum(is.na(video_matrix))
-sum(is.infinite(video_matrix))
+# Extract only the V columns (frame data) and skip the first row if needed
+# The first column is pixel indices, so we skip it
+frame_columns <- raw[, grep("^frame_", names(raw)), drop = FALSE]
 
-#replace them with 0
-video_matrix[is.na(video_matrix)] <- 0
-video_matrix[is.infinite(video_matrix)] <- 0
+# Remove the first row if it contains header artifacts
+# (since your CSV has 14401 rows but should have 14400)
+if (nrow(frame_columns) == 14401) {
+  frame_columns <- frame_columns[2:nrow(frame_columns), , drop = FALSE]
+}
 
+print("Frame columns dimensions:")
+print(dim(frame_columns))
 
+# Convert to numeric matrix
+video_matrix <- as.matrix(frame_columns)
+video_matrix <- apply(video_matrix, 2, function(col) as.numeric(as.character(col)))
+
+# Check for non-numeric values
+print(paste("NA values:", sum(is.na(video_matrix))))
+print(paste("Infinite values:", sum(is.infinite(video_matrix))))
+
+# Remove columns with NAs if any
+if (sum(is.na(video_matrix)) > 0) {
+  video_matrix <- video_matrix[, colSums(is.na(video_matrix)) == 0]
+}
+
+# Final check
+print("Final video_matrix dimensions:")
+print(dim(video_matrix))
+print(paste("Is null:", is.null(video_matrix)))
+print(paste("Length:", length(video_matrix)))
 
 # Run Robust PCA.
 result <- rpca(video_matrix)
