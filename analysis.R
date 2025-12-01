@@ -50,9 +50,10 @@ print(dim(video_matrix))
 print(paste("Is null:", is.null(video_matrix)))
 print(paste("Length:", length(video_matrix)))
 
+# Normalize/standardize your video matrix
+video_matrix_scaled <- scale(video_matrix)
 # Run Robust PCA.
-result <- rpca(video_matrix)
-
+result <- rpca(video_matrix_scaled)
 # Extract the Matrices
 L <- result$L  # Background (Low-Rank)
 S <- result$S  # Foreground / Human (Sparse)
