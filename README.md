@@ -19,3 +19,10 @@
 2.  **Foreground Visualization**: The absolute value of $S$ (`abs(S)`) is taken to create `S_visual`. This is necessary because $S$ contains signed values (negative for dark movements, positive for bright movements), and the absolute value ensures the magnitude of movement is captured for clear visualization.
 3.  **Clamping**: Both $L$ and $S\_visual$ are clamped to the [0, 1] range to handle any minor numerical overshoots from the RPCA computation.
 4.  **Final Export**: $L$ and $S\_visual$ are scaled back to the 0-255 range and saved as separate CSV files (`background_output.csv` and `foreground_output.csv`) without row names.
+
+## How_to_run
+- Place the test video in your desired folder, usually named "assets"
+- Run frame_extractor.py
+- Run analysis.R
+- Run frame_reconstruct.py, the reconstructed frames will be saved as .png images in the /res directory
+- If desired, run video_regen.py
