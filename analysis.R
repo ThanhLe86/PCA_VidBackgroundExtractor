@@ -13,7 +13,11 @@ video_matrix <- video_matrix / 255
 
 print("Running RPCA...")
 
+start_time <- Sys.time()
 result <- rpca(video_matrix, term.delta = 1e-5)
+end_time <- Sys.time()
+execution_time <- end_time - start_time
+print(execution_time)
 
 L <- result$L  # Background
 S <- result$S  # Foreground

@@ -5,7 +5,7 @@ import csv
 import numpy as np
 
 def frame_extraction():
-    video_path = "assets/video.mp4"
+    video_path = "assets/Aura.mp4"
     output_csv = "frames_pixels.csv"
 
     # resize for less pixel variables
