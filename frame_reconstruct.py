@@ -30,3 +30,4 @@ if __name__ == "__main__":
 
     csv_to_images("foreground_output.csv", "res/output_foreground", width=W, height=H)
     csv_to_images("background_output.csv", "res/output_background", width=W, height=H)
+    csv_to_images("frames_pixels.csv", "res/output_og_frames", width=W, height=H)
