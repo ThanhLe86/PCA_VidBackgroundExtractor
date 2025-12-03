@@ -1,5 +1,5 @@
-install.packages("rpca")
-install.packages("data.table") # specific for fast reading
+# install.packages("rpca")
+# install.packages("data.table") # specific for fast reading
 library(rpca)
 library(data.table)
 
