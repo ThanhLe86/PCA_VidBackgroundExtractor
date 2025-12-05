@@ -13,7 +13,7 @@ def save_csv(filename, data, total_frames):
 
 
 def frame_extraction():
-    video_path = "video.mp4"
+    video_path = "assets/Aura.mp4"
 
     csv_R = "frames_R.csv"
     csv_G = "frames_G.csv"

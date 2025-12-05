@@ -42,9 +42,9 @@ def reconstruct_video(bg_folder, fg_folder, orig_folder, output_file, fps=30, th
     video.release()
     print(f"Saved reconstructed video to {output_file}")
 if __name__ == "__main__":
-    bg_folder = "res/output_background"
-    fg_folder = "res/output_foreground"
-    orig_folder = "res/output_og_frames"
+    bg_folder = "res/output_frames/output_background"
+    fg_folder = "res/output_frames/output_foreground"
+    orig_folder = "res/output_frames/output_og_frames"
     output_file = "res/reconstructed.mp4"
 
     reconstruct_video(bg_folder, fg_folder, orig_folder, output_file, fps=30, threshold=15)
