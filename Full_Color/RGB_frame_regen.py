@@ -42,25 +42,25 @@ def reconstruct_rgb_frames(csv_r, csv_g, csv_b, output_dir, width=160, height=90
 
 if __name__ == "__main__":
 
-    bg_r = "background_output_r.csv"
-    bg_g = "background_output_g.csv"
-    bg_b = "background_output_b.csv"
+    bg_r = "placeholder/background_output_r.csv"
+    bg_g = "placeholder/background_output_g.csv"
+    bg_b = "placeholder/background_output_b.csv"
 
-    fg_r = "foreground_output_r.csv"
-    fg_g = "foreground_output_g.csv"
-    fg_b = "foreground_output_b.csv"
+    fg_r = "placeholder/foreground_output_r.csv"
+    fg_g = "placeholder/foreground_output_g.csv"
+    fg_b = "placeholder/foreground_output_b.csv"
 
-    og_r = "frames_R.csv"
-    og_g = "frames_G.csv"
-    og_b = "frames_B.csv"
+    og_r = "placeholder/frames_R.csv"
+    og_g = "placeholder/frames_G.csv"
+    og_b = "placeholder/frames_B.csv"
 
     # Reconstruct Background Frames
     print("--- Reconstructing Background ---")
-    reconstruct_rgb_frames(bg_r, bg_g, bg_b, "res/output_background")
+    reconstruct_rgb_frames(bg_r, bg_g, bg_b, "res/output_frames/output_background")
 
     # Reconstruct Foreground Frames
     print("\n--- Reconstructing Foreground ---")
-    reconstruct_rgb_frames(fg_r, fg_g, fg_b, "res/output_foreground")
+    reconstruct_rgb_frames(fg_r, fg_g, fg_b, "res/output_frames/output_foreground")
 
     print("\n--- Reconstructing Original Frames ---")
-    reconstruct_rgb_frames(og_r, og_g, og_b, "res/output_og_frames")
+    reconstruct_rgb_frames(og_r, og_g, og_b, "res/output_frames/output_og_frames")

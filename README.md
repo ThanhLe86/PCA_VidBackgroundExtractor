@@ -35,4 +35,4 @@
     - Run rgb_analysis.R
     - Run RGB_frame_regen.py, the reconstructed frames will be saved as .png images in the /res directory
 
-- If desired, run video_regen.py
+- If desired, run video_regen.py, which can be run regardless of which video type you choose
