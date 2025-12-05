@@ -49,7 +49,7 @@ def benchmark():
     s_rpca = os.path.getsize("video_rpca.npz") / 1024
 
     # 3. Results Output
-    print(f"{'Method':<25}     | {'Time (s)':<10} | {'Size (KB)':<10}")
+    print(f"{'Method':<25}      | {'Time (s)':<10} | {'Size (KB)':<10}")
     print("-" * 50)
     print(f"{'Raw Data (Original)':<25}      | {t_raw:<10.4f} | {s_raw:<10.2f}")
     print(f"{'RPCA Output (1 BG + Sparse FG)':<25} | {t_rpca:<10.4f} | {s_rpca:<10.2f}")
