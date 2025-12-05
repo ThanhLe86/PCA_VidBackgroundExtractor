@@ -15,9 +15,9 @@ def save_csv(filename, data, total_frames):
 def frame_extraction():
     video_path = "assets/Aura.mp4"
 
-    csv_R = "frames_R.csv"
-    csv_G = "frames_G.csv"
-    csv_B = "frames_B.csv"
+    csv_R = "placeholder/frames_R.csv"
+    csv_G = "placeholder/frames_G.csv"
+    csv_B = "placeholder/frames_B.csv"
 
     w = 160
     h = 90

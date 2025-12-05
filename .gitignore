@@ -1,0 +1,10 @@
+.venv
+*.bin
+*.csv
+placeholder
+background_output.csv
+foreground_output.csv
+frames_pixels.csv
+.RData
+.Rhistory
+res/output_frames
