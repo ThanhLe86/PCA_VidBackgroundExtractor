@@ -21,8 +21,18 @@
 4.  **Final Export**: $L$ and $S\_visual$ are scaled back to the 0-255 range and saved as separate CSV files (`background_output.csv` and `foreground_output.csv`) without row names.
 
 ## How_to_run
-- Place the test video in your desired folder, usually named "assets"
-- Run frame_extractor.py
-- Run analysis.R
-- Run frame_reconstruct.py, the reconstructed frames will be saved as .png images in the /res directory
+### If you want the final product to be greyscaled
+- Place the test video in the "assets" folder
+- In the Greyscaled folder:
+    - Run frame_extractor.py
+    - Run analysis.R
+    - Run frame_reconstruct.py, the reconstructed frames will be saved as .png images in the /res directory
+
+### If you want the final product to be in full color
+- Place the test video in the "assets" folder
+- In the Full_Color folder:
+    - Run RGB_extractor.py
+    - Run rgb_analysis.R
+    - Run RGB_frame_regen.py, the reconstructed frames will be saved as .png images in the /res directory
+
 - If desired, run video_regen.py
