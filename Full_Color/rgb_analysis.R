@@ -49,13 +49,13 @@ Sg_visual[Sg_visual < 0] <- 0; Sg_visual[Sg_visual > 1] <- 1
 Lb[Lb < 0] <- 0; Lb[Lb > 1] <- 1
 Sb_visual[Sb_visual < 0] <- 0; Sb_visual[Sb_visual > 1] <- 1
 
-write.csv(Lr * 255, "background_output_r.csv", row.names = FALSE)
-write.csv(Sr_visual * 255, "foreground_output_r.csv", row.names = FALSE)
+write.csv(Lr * 255, "placeholder/background_output_r.csv", row.names = FALSE)
+write.csv(Sr_visual * 255, "placeholder/foreground_output_r.csv", row.names = FALSE)
 
-write.csv(Lg * 255, "background_output_g.csv", row.names = FALSE)
-write.csv(Sg_visual * 255, "foreground_output_g.csv", row.names = FALSE)
+write.csv(Lg * 255, "placeholder/background_output_g.csv", row.names = FALSE)
+write.csv(Sg_visual * 255, "placeholder/foreground_output_g.csv", row.names = FALSE)
 
-write.csv(Lb * 255, "background_output_b.csv", row.names = FALSE)
-write.csv(Sb_visual * 255, "foreground_output_b.csv", row.names = FALSE)
+write.csv(Lb * 255, "placeholder/background_output_b.csv", row.names = FALSE)
+write.csv(Sb_visual * 255, "placeholder/foreground_output_b.csv", row.names = FALSE)
 
 print("Done.")

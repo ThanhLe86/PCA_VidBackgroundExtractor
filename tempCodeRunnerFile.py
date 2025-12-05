@@ -1,1 +1,0 @@
-rint(mask_csv.shape())
