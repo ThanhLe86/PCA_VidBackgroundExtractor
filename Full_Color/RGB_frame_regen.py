@@ -3,7 +3,8 @@ import numpy as np
 import cv2
 import os
 
-def reconstruct_rgb_frames(csv_r, csv_g, csv_b, output_dir, width=160, height=90):
+# width=160, height=90 at beginning
+def reconstruct_rgb_frames(csv_r, csv_g, csv_b, output_dir, width, height):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
