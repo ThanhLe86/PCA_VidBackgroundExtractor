@@ -2,42 +2,49 @@ import cv2
 import os
 import numpy as np
 
-def reconstruct_video(bg_folder, fg_folder, output_file, fps=30):
-    # 1. Load the single background reference (Frame 0)
+def reconstruct_video(bg_folder, fg_folder, orig_folder, output_file, fps=30, threshold=15):
+    # Load background reference (frame 0)
     bg_images = sorted([f for f in os.listdir(bg_folder) if f.endswith(".png")])
-    if not bg_images:
-        print("No background images found.")
-        return
-    
-    bg_path = os.path.join(bg_folder, bg_images[0])
-    bg_frame = cv2.imread(bg_path).astype(np.float32) # Float for accurate math
+    bg_frame = cv2.imread(os.path.join(bg_folder, bg_images[0])).astype(np.uint8)
+
     height, width, _ = bg_frame.shape
 
-    # 2. Load all foregrounds
-    fg_images = sorted([f for f in os.listdir(fg_folder) if f.endswith(".png")],
-                       key=lambda x: int(x.split('_')[1].split('.')[0]))
+    # Load sparse foreground masks
+    fg_images = sorted(
+        [f for f in os.listdir(fg_folder) if f.endswith(".png")],
+        key=lambda x: int(x.split('_')[1].split('.')[0])
+    )
 
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    # Prepare video writer
+    fourcc = cv2.VideoWriter_fourcc(*"mp4v")
     video = cv2.VideoWriter(output_file, fourcc, fps, (width, height))
 
-    print(f"Reconstructing {len(fg_images)} frames using 1 background...")
-
     for fg_name in fg_images:
+        frame_id = int(fg_name.split('_')[1].split('.')[0])
+
         fg_path = os.path.join(fg_folder, fg_name)
-        fg_frame = cv2.imread(fg_path).astype(np.float32)
+        orig_path = os.path.join(orig_folder, f"frame_{frame_id:04d}.png")
 
-        # 3. The Math: Original = Background + Foreground
-        # Note: Since we saved 'abs(S)', this is an approximation.
-        reconstructed = bg_frame + fg_frame
+        fg_mask = cv2.imread(fg_path, cv2.IMREAD_GRAYSCALE)
+        orig_frame = cv2.imread(orig_path).astype(np.uint8)
 
-        # Clip values to 0-255 to stay in valid image range
-        reconstructed = np.clip(reconstructed, 0, 255).astype(np.uint8)
+        # Threshold mask (your sparse PNGs are grayscale intensities)
+        mask = fg_mask > threshold
+
+        # Start with background
+        reconstructed = bg_frame.copy()
+
+        # Restore original colors at foreground locations
+        reconstructed[mask] = orig_frame[mask]
 
         video.write(reconstructed)
 
-    cv2.destroyAllWindows()
     video.release()
-    print(f"Saved to {output_file}")
-
+    print(f"Saved reconstructed video to {output_file}")
 if __name__ == "__main__":
-    reconstruct_video("res/output_background", "res/output_foreground", "res/reconstructed.mp4")
+    bg_folder = "res/output_frames/output_background"
+    fg_folder = "res/output_frames/output_foreground"
+    orig_folder = "res/output_frames/output_og_frames"
+    output_file = "res/reconstructed.mp4"
+
+    reconstruct_video(bg_folder, fg_folder, orig_folder, output_file, fps=30, threshold=15)
