@@ -1,0 +1,10 @@
+- Project introduction: Problem statement - Methodology - Results
+- Agenda
+- What is PCA? What weakness of PCA that isn't compatible with our project?
+- What is RPCA? Why we choose RPCA for our project?
+
+- Algorithm explaination - Details of PCP, how PCP is used in Principal Component Pursuit via Augmented Lagrange Multipliers
+- Simulation - Preprocessing, Analysis, Reconstruction, Compression
+- Results - simulation results & compression results
+- Discussion - Advantage & Disadvantage of the project, an example of how RPCA can fail to identify background 
+- Conclusion

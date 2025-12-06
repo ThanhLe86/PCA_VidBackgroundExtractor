@@ -5,8 +5,8 @@ import csv
 import numpy as np
 
 def frame_extraction():
-    video_path = "assets/video.mp4"
-    output_csv = "frames_pixels.csv"
+    video_path = "assets/cctv.mp4"
+    output_csv = "placeholder/frames_pixels.csv"
     output_video = "processed_video.mp4"
 
     # resize for less pixel variables

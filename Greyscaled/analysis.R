@@ -27,7 +27,7 @@ S_visual <- abs(S)
 L[L < 0] <- 0; L[L > 1] <- 1
 S_visual[S_visual < 0] <- 0; S_visual[S_visual > 1] <- 1
 
-write.csv(L * 255, "background_output.csv", row.names = FALSE)
-write.csv(S_visual * 255, "foreground_output.csv", row.names = FALSE)
+write.csv(L * 255, "placeholder/background_output.csv", row.names = FALSE)
+write.csv(S_visual * 255, "placeholder/foreground_output.csv", row.names = FALSE)
 
 print("Done.")

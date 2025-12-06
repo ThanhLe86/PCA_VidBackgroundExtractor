@@ -28,6 +28,6 @@ if __name__ == "__main__":
     # Ensure dimensions match those inframe_extractor.py
     W, H = 160, 90
 
-    csv_to_images("foreground_output.csv", "res/output_foreground", width=W, height=H)
-    csv_to_images("background_output.csv", "res/output_background", width=W, height=H)
-    csv_to_images("frames_pixels.csv", "res/output_og_frames", width=W, height=H)
+    csv_to_images("placeholder/foreground_output.csv", "res/output_frames/output_foreground", width=W, height=H)
+    csv_to_images("placeholder/background_output.csv", "res/output_frames/output_background", width=W, height=H)
+    csv_to_images("placeholder/frames_pixels.csv", "res/output_frames/output_og_frames", width=W, height=H)
