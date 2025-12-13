@@ -13,14 +13,20 @@ def save_csv(filename, data, total_frames):
 
 
 def frame_extraction():
-    video_path = "assets/Aura.mp4"
+    video_path = "assets/video.mp4"
 
     csv_R = "placeholder/frames_R.csv"
     csv_G = "placeholder/frames_G.csv"
     csv_B = "placeholder/frames_B.csv"
 
-    w = 160
-    h = 90
+    vid = cv2.VideoCapture(video_path)
+    h = vid.get(cv2.CAP_PROP_FRAME_HEIGHT) / 6
+    w = vid.get(cv2.CAP_PROP_FRAME_WIDTH) / 6
+
+    h = int(h)
+    w = int(w)
+
+    print(w, h)
 
     R_frames = []
     G_frames = []

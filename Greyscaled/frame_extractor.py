@@ -5,16 +5,16 @@ import csv
 import numpy as np
 
 def frame_extraction():
-    video_path = "assets/cctv.mp4"
+    video_path = "assets/video.mp4"
     output_csv = "placeholder/frames_pixels.csv"
     output_video = "processed_video.mp4"
 
-    # resize for less pixel variables
-    new_width = 160
-    new_height = 90
-
     cap = cv2.VideoCapture(video_path)
+    new_width = cap.get(cv2.CAP_PROP_FRAME_WIDTH) / 6
+    new_height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT) / 6
 
+    new_width = int(new_width)
+    new_height = int(new_height)
     # Get video properties for output video
     fps = cap.get(cv2.CAP_PROP_FPS)
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')

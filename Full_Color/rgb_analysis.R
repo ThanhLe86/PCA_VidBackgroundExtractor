@@ -3,9 +3,9 @@
 library(rpca)
 library(data.table)
 
-rawR <- fread("frames_R.csv", header = TRUE)
-rawG <- fread("frames_G.csv", header = TRUE)
-rawB <- fread("frames_B.csv", header = TRUE)
+rawR <- fread("placeholder/frames_R.csv", header = TRUE)
+rawG <- fread("placeholder/frames_G.csv", header = TRUE)
+rawB <- fread("placeholder/frames_B.csv", header = TRUE)
 
 # Drop pixel_index 
 matrix_R <- as.matrix(rawR[, -1])

@@ -57,11 +57,11 @@ if __name__ == "__main__":
 
     # Reconstruct Background Frames
     print("--- Reconstructing Background ---")
-    reconstruct_rgb_frames(bg_r, bg_g, bg_b, "res/output_frames/output_background")
+    reconstruct_rgb_frames(bg_r, bg_g, bg_b, "res/output_frames/output_background", 180, 320)
 
     # Reconstruct Foreground Frames
     print("\n--- Reconstructing Foreground ---")
-    reconstruct_rgb_frames(fg_r, fg_g, fg_b, "res/output_frames/output_foreground")
+    reconstruct_rgb_frames(fg_r, fg_g, fg_b, "res/output_frames/output_foreground", 180, 320)
 
     print("\n--- Reconstructing Original Frames ---")
-    reconstruct_rgb_frames(og_r, og_g, og_b, "res/output_frames/output_og_frames")
+    reconstruct_rgb_frames(og_r, og_g, og_b, "res/output_frames/output_og_frames", 180, 320)

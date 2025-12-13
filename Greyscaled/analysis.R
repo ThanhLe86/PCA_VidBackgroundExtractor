@@ -3,7 +3,7 @@
 library(rpca)
 library(data.table)
 
-raw <- fread("frames_pixels.csv", header = TRUE)
+raw <- fread("placeholder/frames_pixels.csv", header = TRUE)
 
 # Drop pixel_index 
 video_matrix <- as.matrix(raw[, -1])
