@@ -26,7 +26,7 @@ def csv_to_images(csv_file, output_folder, width=160, height=90):
 
 if __name__ == "__main__":
     # Ensure dimensions match those inframe_extractor.py
-    W, H = 160, 90
+    W, H = int(1080/6), int(1920/6)
 
     csv_to_images("placeholder/foreground_output.csv", "res/output_frames/output_foreground", width=W, height=H)
     csv_to_images("placeholder/background_output.csv", "res/output_frames/output_background", width=W, height=H)

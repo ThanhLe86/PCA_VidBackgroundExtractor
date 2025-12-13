@@ -3,7 +3,8 @@ import numpy as np
 import cv2
 import os
 
-def reconstruct_rgb_frames(csv_r, csv_g, csv_b, output_dir, width=160, height=90):
+# width=160, height=90 at beginning
+def reconstruct_rgb_frames(csv_r, csv_g, csv_b, output_dir, width, height):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
@@ -56,11 +57,11 @@ if __name__ == "__main__":
 
     # Reconstruct Background Frames
     print("--- Reconstructing Background ---")
-    reconstruct_rgb_frames(bg_r, bg_g, bg_b, "res/output_frames/output_background")
+    reconstruct_rgb_frames(bg_r, bg_g, bg_b, "res/output_frames/output_background", 180, 320)
 
     # Reconstruct Foreground Frames
     print("\n--- Reconstructing Foreground ---")
-    reconstruct_rgb_frames(fg_r, fg_g, fg_b, "res/output_frames/output_foreground")
+    reconstruct_rgb_frames(fg_r, fg_g, fg_b, "res/output_frames/output_foreground", 180, 320)
 
     print("\n--- Reconstructing Original Frames ---")
-    reconstruct_rgb_frames(og_r, og_g, og_b, "res/output_frames/output_og_frames")
+    reconstruct_rgb_frames(og_r, og_g, og_b, "res/output_frames/output_og_frames", 180, 320)
