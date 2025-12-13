@@ -20,19 +20,18 @@
 3.  **Clamping**: Both $L$ and $S\_visual$ are clamped to the [0, 1] range to handle any minor numerical overshoots from the RPCA computation.
 4.  **Final Export**: $L$ and $S\_visual$ are scaled back to the 0-255 range and saved as separate CSV files (`background_output.csv` and `foreground_output.csv`) without row names.
 
-## How_to_run
-### If you want the final product to be greyscaled
-- Place the test video in the "assets" folder
-- In the Greyscaled folder:
-    - Run frame_extractor.py
-    - Run analysis.R
-    - Run frame_reconstruct.py, the reconstructed frames will be saved as .png images in the /res directory
+## How to Run
 
-### If you want the final product to be in full color
-- Place the test video in the "assets" folder
-- In the Full_Color folder:
-    - Run RGB_extractor.py
-    - Run rgb_analysis.R
-    - Run RGB_frame_regen.py, the reconstructed frames will be saved as .png images in the /res directory
+### 1. Setup
+Place your test video in the `assets` folder.
 
-- If desired, run video_regen.py, which can be run regardless of which video type you choose
+### 2. Execution
+Run the main orchestration script to execute the full pipeline (extraction, analysis, and reconstruction):
+
+```bash
+python main.py
+```
+
+- Changing the Final Result: If you want to switch between Greyscale and Full Color processing, open main.py in a text editor and update the script calls to match the desired workflow (e.g., swapping frame_extractor.py for RGB_extractor.py). 
+
+- Video Generation (Optional): If desired, run video_regen.py after the process completes. This can be run regardless of which video type you chose.
